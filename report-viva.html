@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Relatório PMO — ProEdetto Rodnet Viva</title>
+<style>
+:root {
+  --navy:    #1B2A4A;
+  --blue:    #2F6FED;
+  --teal:    #17A398;
+  --amber:   #F2A93B;
+  --coral:   #F2542D;
+  --green:   #2FAE60;
+  --white:   #FFFFFF;
+  --light:   #F7F9FC;
+  --border:  #DDE3EF;
+  --muted:   #6B7A99;
+  --ink:     #1a2233;
+  --red:     #D64545;
+  --shadow:  0 2px 12px rgba(27,42,74,0.10);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: var(--light);
+  color: var(--ink);
+  min-height: 100vh;
+}
+
+/* ── TOPBAR ── */
+.topbar {
+  background: var(--navy);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 36px;
+  height: 64px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+}
+.topbar-left { display: flex; align-items: center; gap: 14px; }
+.topbar-logo {
+  width: 38px; height: 38px; border-radius: 10px;
+  background: var(--blue);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 18px; color: #fff; letter-spacing: -1px;
+}
+.topbar-title { font-size: 16px; font-weight: 700; }
+.topbar-sub { font-size: 12px; color: #9aafd4; margin-top: 2px; }
+.topbar-right { display: flex; align-items: center; gap: 12px; }
+.btn-update {
+  background: var(--blue);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 22px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background 0.15s, transform 0.1s;
+}
+.btn-update:hover { background: #1d56c9; }
+.btn-update:active { transform: scale(0.97); }
+.btn-update:disabled { background: #6b7a99; cursor: not-allowed; }
+.btn-update svg { width: 16px; height: 16px; }
+.update-status { font-size: 12px; color: #9aafd4; }
+
+/* ── MAIN ── */
+main { max-width: 1100px; margin: 0 auto; padding: 32px 24px 60px; }
+
+/* ── SLIDE SECTION ── */
+.slide {
+  background: var(--white);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  margin-bottom: 28px;
+  overflow: hidden;
+}
+.slide-header {
+  background: var(--navy);
+  color: #fff;
+  padding: 18px 28px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.slide-num {
+  background: rgba(255,255,255,0.15);
+  border-radius: 8px;
+  width: 32px; height: 32px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 700;
+}
+.slide-title { font-size: 16px; font-weight: 700; }
+.slide-sub { font-size: 12px; color: #9aafd4; margin-top: 2px; }
+.slide-body { padding: 28px; }
+
+/* ── SLIDE 1: CAPA ── */
+.capa {
+  background: linear-gradient(135deg, var(--navy) 0%, #2a3f6f 100%);
+  color: #fff;
+  border-radius: 16px;
+  padding: 48px 56px;
+  margin-bottom: 28px;
+  box-shadow: var(--shadow);
+  position: relative;
+  overflow: hidden;
+}
+.capa::before {
+  content: '';
+  position: absolute;
+  top: -60px; right: -60px;
+  width: 300px; height: 300px;
+  background: rgba(47,111,237,0.2);
+  border-radius: 50%;
+}
+.capa-tag {
+  display: inline-block;
+  background: var(--blue);
+  color: #fff;
+  border-radius: 6px;
+  padding: 4px 12px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+.capa h1 { font-size: 36px; font-weight: 800; line-height: 1.15; margin-bottom: 6px; }
+.capa h2 { font-size: 20px; font-weight: 400; color: #9aafd4; margin-bottom: 32px; }
+.capa-meta { display: flex; gap: 40px; }
+.capa-meta-item label { font-size: 11px; color: #9aafd4; text-transform: uppercase; letter-spacing: .06em; }
+.capa-meta-item p { font-size: 15px; font-weight: 600; margin-top: 3px; }
+.rag-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 14px;
+  margin-top: 24px;
+}
+.rag-badge.G { background: rgba(47,174,96,0.18); color: #2FAE60; border: 1.5px solid #2FAE60; }
+.rag-badge.A { background: rgba(242,169,59,0.18); color: #c88800; border: 1.5px solid #F2A93B; }
+.rag-badge.R { background: rgba(214,69,69,0.18); color: #D64545; border: 1.5px solid #D64545; }
+.rag-dot { width: 10px; height: 10px; border-radius: 50%; }
+.rag-badge.G .rag-dot { background: #2FAE60; }
+.rag-badge.A .rag-dot { background: #F2A93B; }
+.rag-badge.R .rag-dot { background: #D64545; }
+
+/* ── SLIDE 2: KPIs ── */
+.kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+.kpi-card {
+  background: var(--light);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 18px 20px;
+}
+.kpi-card .num { font-size: 32px; font-weight: 800; line-height: 1; }
+.kpi-card .lbl { font-size: 12px; color: var(--muted); margin-top: 6px; text-transform: uppercase; letter-spacing: .05em; }
+.kpi-card.green .num { color: var(--green); }
+.kpi-card.amber .num { color: #c88800; }
+.kpi-card.red .num { color: var(--red); }
+.kpi-card.blue .num { color: var(--blue); }
+.narrative {
+  background: var(--light);
+  border-left: 4px solid var(--blue);
+  border-radius: 0 8px 8px 0;
+  padding: 14px 18px;
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--ink);
+}
+.narrative strong { color: var(--navy); }
+.chips-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+.chip {
+  background: #eef2fc;
+  color: var(--navy);
+  border: 1px solid #d0daf5;
+  border-radius: 999px;
+  padding: 5px 14px;
+  font-size: 12.5px;
+  font-weight: 600;
+}
+
+/* ── SLIDE 3: RAG ── */
+.rag-table { width: 100%; border-collapse: collapse; }
+.rag-table th {
+  text-align: left;
+  font-size: 11px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  padding: 0 0 10px 0;
+  border-bottom: 1px solid var(--border);
+}
+.rag-table td {
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 14px;
+  vertical-align: middle;
+}
+.rag-table tr:last-child td { border-bottom: none; }
+.rag-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 14px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+}
+.rag-pill.G { background: rgba(47,174,96,0.12); color: #2FAE60; }
+.rag-pill.A { background: rgba(242,169,59,0.12); color: #c88800; }
+.rag-pill.R { background: rgba(214,69,69,0.12); color: #D64545; }
+
+/* ── SLIDE 4: TIMELINE ── */
+.timeline { position: relative; padding: 20px 0 8px; }
+.timeline-line {
+  position: absolute;
+  top: 38px;
+  left: 60px;
+  right: 60px;
+  height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+}
+.timeline-track { display: flex; justify-content: space-between; position: relative; }
+.milestone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 160px;
+  text-align: center;
+}
+.milestone-dot {
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  border: 3px solid;
+  background: #fff;
+  z-index: 1;
+  margin-bottom: 10px;
+}
+.milestone.done .milestone-dot { border-color: var(--green); background: var(--green); }
+.milestone.current .milestone-dot { border-color: var(--blue); background: var(--blue); }
+.milestone.pending .milestone-dot { border-color: var(--border); }
+.milestone-label { font-size: 13px; font-weight: 600; }
+.milestone-date { font-size: 11px; color: var(--muted); margin-top: 4px; }
+.milestone-status { font-size: 11px; margin-top: 4px; font-weight: 600; }
+.milestone.done .milestone-status { color: var(--green); }
+.milestone.current .milestone-status { color: var(--blue); }
+.milestone.pending .milestone-status { color: var(--muted); }
+
+/* ── SLIDE 5: RISCOS ── */
+.risk-table { width: 100%; border-collapse: collapse; }
+.risk-table th {
+  text-align: left;
+  font-size: 11px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  padding: 0 8px 10px;
+  border-bottom: 1px solid var(--border);
+}
+.risk-table td {
+  padding: 12px 8px;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+  vertical-align: top;
+}
+.risk-table tr:last-child td { border-bottom: none; }
+.impact-badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.impact-badge.Alto { background: rgba(214,69,69,0.12); color: var(--red); }
+.impact-badge.Médio { background: rgba(242,169,59,0.12); color: #c88800; }
+.impact-badge.Baixo { background: rgba(47,174,96,0.12); color: var(--green); }
+.empty-state {
+  text-align: center;
+  padding: 32px;
+  color: var(--muted);
+  font-size: 14px;
+}
+.empty-state svg { margin: 0 auto 12px; display: block; }
+
+/* ── SLIDE 6: PRÓXIMOS PASSOS ── */
+.steps-list { display: flex; flex-direction: column; gap: 12px; }
+.step-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  background: var(--light);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 18px;
+}
+.step-num {
+  min-width: 28px; height: 28px;
+  background: var(--blue);
+  color: #fff;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 700;
+}
+.step-info { flex: 1; }
+.step-title { font-size: 14px; font-weight: 600; }
+.step-meta { font-size: 12px; color: var(--muted); margin-top: 4px; }
+
+/* ── LOADING OVERLAY ── */
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(27,42,74,0.45);
+  z-index: 200;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 16px;
+}
+.overlay.visible { display: flex; }
+.overlay-box {
+  background: #fff;
+  border-radius: 16px;
+  padding: 32px 48px;
+  text-align: center;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.18);
+}
+.spinner {
+  width: 40px; height: 40px;
+  border: 4px solid var(--border);
+  border-top-color: var(--blue);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin: 0 auto 16px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.overlay-msg { font-size: 15px; font-weight: 600; color: var(--navy); }
+.overlay-sub { font-size: 13px; color: var(--muted); margin-top: 6px; }
+
+/* ── TOAST ── */
+.toast {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  background: var(--navy);
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: var(--shadow);
+  transform: translateY(80px);
+  opacity: 0;
+  transition: all 0.3s ease;
+  z-index: 300;
+}
+.toast.show { transform: translateY(0); opacity: 1; }
+.toast.error { background: var(--red); }
+.toast.success { background: var(--green); }
+
+/* ── FOOTER ── */
+footer {
+  text-align: center;
+  font-size: 12px;
+  color: var(--muted);
+  padding: 24px;
+  border-top: 1px solid var(--border);
+  margin-top: 40px;
+}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-left">
+    <div class="topbar-logo">RV</div>
+    <div>
+      <div class="topbar-title">ProEdetto Rodnet Viva</div>
+      <div class="topbar-sub">Relatório Executivo PMO</div>
+    </div>
+  </div>
+  <div class="topbar-right">
+    <span class="update-status" id="updateStatus">—</span>
+    <button class="btn-update" id="btnUpdate" onclick="fetchAndRender()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/>
+        <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+      </svg>
+      Atualizar do Jira
+    </button>
+  </div>
+</div>
+
+<!-- LOADING OVERLAY -->
+<div class="overlay" id="overlay">
+  <div class="overlay-box">
+    <div class="spinner"></div>
+    <div class="overlay-msg">Buscando dados do Jira…</div>
+    <div class="overlay-sub">Isso pode levar alguns segundos</div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<main id="mainContent">
+  <!-- Conteúdo renderizado via JS -->
+  <div style="text-align:center;padding:80px;color:#6B7A99;">
+    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#2F6FED" stroke-width="1.5" style="display:block;margin:0 auto 16px">
+      <circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>
+    </svg>
+    <p style="font-size:18px;font-weight:700;color:#1B2A4A;margin-bottom:8px">Relatório ainda não carregado</p>
+    <p style="font-size:14px;margin-bottom:24px">Clique em <strong>"Atualizar do Jira"</strong> para buscar os dados mais recentes da sprint.</p>
+    <button class="btn-update" style="margin:0 auto" onclick="fetchAndRender()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px">
+        <polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/>
+        <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+      </svg>
+      Atualizar do Jira
+    </button>
+  </div>
+</main>
+
+<footer>
+  Status Report de Projeto — ProEdetto Rodnet Viva &nbsp;|&nbsp; Dados extraídos em tempo real do Jira (projeto VVO)
+</footer>
+
+<script>
+// ── Detecta URL base automaticamente (funciona no Netlify)
+const BASE_URL = window.location.origin;
+const PROXY_URL = `${BASE_URL}/.netlify/functions/jira-proxy`;
+
+function fmtDate(s) {
+  if (!s) return '—';
+  const [y, m, d] = s.split('-');
+  return `${d}/${m}/${y}`;
+}
+
+function ragLabel(r) {
+  return r === 'G' ? 'No Prazo' : r === 'A' ? 'Atenção' : 'Crítico';
+}
+
+function showToast(msg, type = '') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = `toast show ${type}`;
+  setTimeout(() => { t.className = 'toast'; }, 3500);
+}
+
+async function fetchAndRender() {
+  const btn = document.getElementById('btnUpdate');
+  const overlay = document.getElementById('overlay');
+  const statusEl = document.getElementById('updateStatus');
+
+  btn.disabled = true;
+  overlay.classList.add('visible');
+  statusEl.textContent = 'Buscando…';
+
+  try {
+    const res = await fetch(PROXY_URL, { method: 'POST' });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.error || `HTTP ${res.status}`);
+    }
+    const data = await res.json();
+    render(data);
+    const now = new Date().toLocaleString('pt-BR');
+    statusEl.textContent = `Atualizado em ${now}`;
+    showToast('✔ Dados atualizados com sucesso!', 'success');
+  } catch (err) {
+    console.error(err);
+    statusEl.textContent = 'Erro ao atualizar';
+    showToast(`Erro: ${err.message}`, 'error');
+  } finally {
+    btn.disabled = false;
+    overlay.classList.remove('visible');
+  }
+}
+
+function render(d) {
+  const k = d.kpis;
+  const rag = d.overallRag;
+  const ragLbl = ragLabel(rag);
+  const pct = d.pctConcluido;
+
+  // Período formatado
+  const periodo = `${fmtDate(d.sprintStart)} – ${fmtDate(d.sprintEnd)}`;
+
+  // ── SLIDE 1: CAPA
+  const slide1 = `
+    <div class="capa">
+      <div class="capa-tag">Relatório Executivo PMO</div>
+      <h1>ProEdetto Rodnet Viva</h1>
+      <h2>${d.sprint}</h2>
+      <div class="capa-meta">
+        <div class="capa-meta-item">
+          <label>Período</label>
+          <p>${periodo}</p>
+        </div>
+        <div class="capa-meta-item">
+          <label>Projeto</label>
+          <p>Vivahcare V3.0 (VVO)</p>
+        </div>
+        <div class="capa-meta-item">
+          <label>Gerado em</label>
+          <p>${new Date(d.geradoEm).toLocaleString('pt-BR')}</p>
+        </div>
+      </div>
+      <div class="rag-badge ${rag}">
+        <span class="rag-dot"></span>
+        Status Geral: ${ragLbl}
+      </div>
+    </div>`;
+
+  // ── SLIDE 2: RESUMO EXECUTIVO
+  const atrasadosPct = k.total > 0 ? Math.round((k.atrasados / k.total) * 100) : 0;
+  const slide2 = `
+    <div class="slide">
+      <div class="slide-header">
+        <div class="slide-num">2</div>
+        <div>
+          <div class="slide-title">Resumo Executivo</div>
+          <div class="slide-sub">KPIs e narrativa da sprint atual</div>
+        </div>
+      </div>
+      <div class="slide-body">
+        <div class="kpi-grid">
+          <div class="kpi-card green">
+            <div class="num">${pct}%</div>
+            <div class="lbl">Progresso Geral</div>
+          </div>
+          <div class="kpi-card blue">
+            <div class="num">${k.total}</div>
+            <div class="lbl">Total de Itens</div>
+          </div>
+          <div class="kpi-card ${k.atrasados > 5 ? 'red' : k.atrasados > 0 ? 'amber' : 'green'}">
+            <div class="num">${k.atrasados}</div>
+            <div class="lbl">Itens Atrasados</div>
+          </div>
+          <div class="kpi-card ${k.bloqueados > 3 ? 'red' : k.bloqueados > 0 ? 'amber' : 'green'}">
+            <div class="num">${k.bloqueados}</div>
+            <div class="lbl">Itens Bloqueados</div>
+          </div>
+        </div>
+        <div class="narrative">
+          <strong>Entrega principal:</strong> ${k.concluido} de ${k.total} itens concluídos (${pct}% da sprint).<br>
+          <strong>Pontos de atenção:</strong> ${k.atrasados} itens atrasados (${atrasadosPct}% do total) e ${k.bloqueados} bloqueios ativos.<br>
+          <strong>Foco no próximo período:</strong> Resolução dos bloqueios e sprint final antes da pré-implantação em ${fmtDate(d.sprintEnd)}.
+        </div>
+        <div class="chips-row">
+          ${(k.porResponsavel || []).map(r => `<span class="chip">${r.nome}: ${r.total}</span>`).join('')}
+        </div>
+      </div>
+    </div>`;
+
+  // ── SLIDE 3: RAG POR FRENTE
+  const ragRows = (d.workstreams || []).map(w => `
+    <tr>
+      <td style="font-weight:600;padding-right:24px">${w.nome}</td>
+      <td><span class="rag-pill ${w.rag}">${ragLabel(w.rag)}</span></td>
+      <td style="color:var(--muted)">${w.nota}</td>
+    </tr>`).join('');
+
+  const slide3 = `
+    <div class="slide">
+      <div class="slide-header">
+        <div class="slide-num">3</div>
+        <div>
+          <div class="slide-title">RAG Status por Frente de Trabalho</div>
+          <div class="slide-sub">Verde = No Prazo · Âmbar = Atenção · Vermelho = Crítico</div>
+        </div>
+      </div>
+      <div class="slide-body">
+        <table class="rag-table">
+          <thead><tr>
+            <th style="width:200px">Frente</th>
+            <th style="width:140px">Status</th>
+            <th>Observação</th>
+          </tr></thead>
+          <tbody>${ragRows}</tbody>
+        </table>
+      </div>
+    </div>`;
+
+  // ── SLIDE 4: TIMELINE
+  const milestones = d.marcos || [];
+  const msHtml = milestones.map(m => `
+    <div class="milestone ${m.status}">
+      <div class="milestone-dot"></div>
+      <div class="milestone-label">${m.nome}</div>
+      <div class="milestone-date">${fmtDate(m.data)}</div>
+      <div class="milestone-status">
+        ${m.status === 'done' ? '✔ Concluído' : m.status === 'current' ? '▶ Atual' : '○ Pendente'}
+      </div>
+    </div>`).join('');
+
+  const slide4 = `
+    <div class="slide">
+      <div class="slide-header">
+        <div class="slide-num">4</div>
+        <div>
+          <div class="slide-title">Marcos e Cronograma</div>
+          <div class="slide-sub">${d.sprint} · ${periodo}</div>
+        </div>
+      </div>
+      <div class="slide-body">
+        <div class="timeline">
+          <div class="timeline-line"></div>
+          <div class="timeline-track">${msHtml}</div>
+        </div>
+      </div>
+    </div>`;
+
+  // ── SLIDE 5: RISCOS
+  const riscos = d.riscos || [];
+  const riskBody = riscos.length === 0
+    ? `<tr><td colspan="5"><div class="empty-state">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#2FAE60" stroke-width="1.5" width="36" height="36">
+          <circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4"/>
+        </svg>
+        Nenhum risco ou bloqueio ativo identificado.
+      </div></td></tr>`
+    : riscos.map(r => `
+      <tr>
+        <td style="max-width:260px">${r.descricao}</td>
+        <td><span class="impact-badge ${r.impacto}">${r.impacto}</span></td>
+        <td>${r.prob}</td>
+        <td style="color:var(--muted)">${r.mitigacao}</td>
+        <td style="white-space:nowrap">${r.responsavel}</td>
+      </tr>`).join('');
+
+  const slide5 = `
+    <div class="slide">
+      <div class="slide-header">
+        <div class="slide-num">5</div>
+        <div>
+          <div class="slide-title">Riscos e Issues</div>
+          <div class="slide-sub">Itens bloqueados e flagged na sprint atual</div>
+        </div>
+      </div>
+      <div class="slide-body">
+        <table class="risk-table">
+          <thead><tr>
+            <th>Descrição</th>
+            <th>Impacto</th>
+            <th>Prob.</th>
+            <th>Mitigação</th>
+            <th>Responsável</th>
+          </tr></thead>
+          <tbody>${riskBody}</tbody>
+        </table>
+      </div>
+    </div>`;
+
+  // ── SLIDE 6: PRÓXIMOS PASSOS
+  const passos = d.proximosPassos || [];
+  const stepsHtml = passos.length === 0
+    ? '<p style="color:var(--muted);font-size:14px">Nenhuma ação pendente identificada.</p>'
+    : passos.map((p, i) => `
+      <div class="step-item">
+        <div class="step-num">${i + 1}</div>
+        <div class="step-info">
+          <div class="step-title">${p.acao}</div>
+          <div class="step-meta">Responsável: ${p.responsavel} &nbsp;·&nbsp; Prazo: ${fmtDate(p.data)}</div>
+        </div>
+      </div>`).join('');
+
+  const slide6 = `
+    <div class="slide">
+      <div class="slide-header">
+        <div class="slide-num">6</div>
+        <div>
+          <div class="slide-title">Próximos Passos</div>
+          <div class="slide-sub">Ações prioritárias para o período</div>
+        </div>
+      </div>
+      <div class="slide-body">
+        <div class="steps-list">${stepsHtml}</div>
+      </div>
+    </div>`;
+
+  document.getElementById('mainContent').innerHTML = slide1 + slide2 + slide3 + slide4 + slide5 + slide6;
+}
+</script>
+</body>
+</html>
