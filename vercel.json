@@ -1,9 +1,8 @@
 {
   "version": 2,
-  "outputDirectory": "public",
   "rewrites": [
     { "source": "/api/:path*", "destination": "/api/:path*" },
-    { "source": "/",           "destination": "/public/report-viva.html" },
-    { "source": "/:path*",     "destination": "/public/:path*" }
+    { "source": "/",           "destination": "/index.html" },
+    { "source": "/:path*",     "destination": "/:path*" }
   ]
 }
