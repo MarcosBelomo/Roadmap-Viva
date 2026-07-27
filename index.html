@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Projeto Vivahcare — PMO</title>
+<style>
+:root {
+  --navy:  #1B2A4A;
+  --blue:  #2F6FED;
+  --teal:  #17A398;
+  --green: #2FAE60;
+  --amber: #F2A93B;
+  --red:   #D64545;
+  --gray:  #9aa1b1;
+  --light: #F7F9FC;
+  --border:#DDE3EF;
+  --ink:   #1a2233;
+  --muted: #6B7A99;
+  --white: #ffffff;
+  --shadow:0 2px 12px rgba(27,42,74,0.10);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Segoe UI',Arial,sans-serif;background:var(--light);color:var(--ink);}
+
+/* TOPBAR */
+.topbar{
+  background:var(--navy);color:#fff;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 32px;height:60px;
+  position:sticky;top:0;z-index:100;
+  box-shadow:0 2px 8px rgba(0,0,0,0.2);
+}
+.topbar-left{display:flex;align-items:center;gap:12px;}
+.logo{
+  width:36px;height:36px;border-radius:9px;
+  background:var(--blue);display:flex;align-items:center;
+  justify-content:center;font-weight:800;font-size:16px;
+}
+.topbar-title{font-size:15px;font-weight:700;}
+.topbar-sub{font-size:11px;color:#9aafd4;margin-top:1px;}
+.topbar-right{display:flex;align-items:center;gap:10px;}
+.update-status{font-size:11px;color:#9aafd4;}
+
+.btn{
+  border:none;border-radius:9px;padding:9px 20px;
+  font-size:13px;font-weight:600;cursor:pointer;
+  display:flex;align-items:center;gap:7px;
+  transition:opacity 0.15s,transform 0.1s;
+}
+.btn:hover{opacity:0.88;}
+.btn:active{transform:scale(0.97);}
+.btn:disabled{opacity:0.5;cursor:not-allowed;}
+.btn-blue{background:var(--blue);color:#fff;}
+.btn-red{background:var(--red);color:#fff;}
+.btn svg{width:15px;height:15px;flex-shrink:0;}
+
+/* MAIN */
+main{max-width:1140px;margin:0 auto;padding:28px 20px 60px;}
+
+/* CARDS */
+.card{
+  background:var(--white);border-radius:14px;
+  box-shadow:var(--shadow);margin-bottom:24px;overflow:hidden;
+}
+.card-header{
+  background:var(--navy);color:#fff;
+  padding:16px 24px;display:flex;align-items:center;gap:10px;
+}
+.card-num{
+  background:rgba(255,255,255,0.15);border-radius:7px;
+  width:30px;height:30px;display:flex;align-items:center;
+  justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;
+}
+.card-title{font-size:15px;font-weight:700;}
+.card-sub{font-size:11px;color:#9aafd4;margin-top:1px;}
+.card-body{padding:24px;}
+
+/* CAPA */
+.capa{
+  background:linear-gradient(135deg,var(--navy) 0%,#253a6e 100%);
+  color:#fff;border-radius:14px;padding:44px 52px;
+  margin-bottom:24px;box-shadow:var(--shadow);position:relative;overflow:hidden;
+}
+.capa::before{
+  content:'';position:absolute;top:-60px;right:-60px;
+  width:280px;height:280px;background:rgba(47,111,237,0.18);border-radius:50%;
+}
+.capa-tag{
+  display:inline-block;background:var(--blue);color:#fff;
+  border-radius:5px;padding:3px 10px;font-size:10px;
+  font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px;
+}
+.capa h1{font-size:34px;font-weight:800;line-height:1.15;margin-bottom:4px;}
+.capa h2{font-size:18px;font-weight:400;color:#9aafd4;margin-bottom:28px;}
+.capa-meta{display:flex;gap:36px;flex-wrap:wrap;}
+.capa-meta-item label{font-size:10px;color:#9aafd4;text-transform:uppercase;letter-spacing:.06em;}
+.capa-meta-item p{font-size:14px;font-weight:600;margin-top:3px;}
+
+/* KPI GRID */
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+.kpi-card{
+  background:var(--light);border:1px solid var(--border);
+  border-radius:11px;padding:16px 18px;
+}
+.kpi-card .num{font-size:30px;font-weight:800;line-height:1;}
+.kpi-card .lbl{font-size:11px;color:var(--muted);margin-top:5px;text-transform:uppercase;letter-spacing:.04em;}
+.kpi-card.green .num{color:var(--green);}
+.kpi-card.blue  .num{color:var(--blue);}
+.kpi-card.amber .num{color:#c88800;}
+.kpi-card.red   .num{color:var(--red);}
+
+/* RESPONSÁVEIS */
+.resp-grid{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px;}
+.resp-chip{
+  background:#eef2fc;border:1px solid #d0daf5;
+  border-radius:999px;padding:5px 14px;
+  font-size:12px;font-weight:600;color:var(--navy);
+}
+
+/* OVERLAY */
+.overlay{
+  display:none;position:fixed;inset:0;
+  background:rgba(27,42,74,0.45);z-index:200;
+  align-items:center;justify-content:center;
+}
+.overlay.visible{display:flex;}
+.overlay-box{
+  background:#fff;border-radius:14px;padding:30px 44px;
+  text-align:center;box-shadow:0 8px 40px rgba(0,0,0,0.18);
+}
+.spinner{
+  width:38px;height:38px;border:4px solid var(--border);
+  border-top-color:var(--blue);border-radius:50%;
+  animation:spin .8s linear infinite;margin:0 auto 14px;
+}
+@keyframes spin{to{transform:rotate(360deg);}}
+.overlay-msg{font-size:14px;font-weight:600;color:var(--navy);}
+.overlay-sub{font-size:12px;color:var(--muted);margin-top:4px;}
+
+/* TOAST */
+.toast{
+  position:fixed;bottom:24px;right:24px;
+  padding:11px 18px;border-radius:9px;font-size:13px;font-weight:500;
+  box-shadow:var(--shadow);z-index:300;
+  transform:translateY(80px);opacity:0;transition:all .3s ease;
+}
+.toast.show{transform:translateY(0);opacity:1;}
+.toast.success{background:var(--green);color:#fff;}
+.toast.error  {background:var(--red);color:#fff;}
+
+/* EMPTY STATE */
+.empty{
+  text-align:center;padding:64px 24px;color:var(--muted);
+}
+.empty svg{display:block;margin:0 auto 14px;}
+.empty h3{font-size:17px;font-weight:700;color:var(--navy);margin-bottom:6px;}
+.empty p{font-size:13px;margin-bottom:22px;}
+
+/* ROADMAP SVG */
+#roadmapContainer{width:100%;overflow-x:hidden;}
+
+/* LEGENDA */
+.legenda{
+  display:flex;gap:20px;padding:12px 24px;
+  border-top:1px solid var(--border);font-size:11px;
+  color:var(--muted);flex-wrap:wrap;align-items:center;
+}
+.leg-item{display:flex;align-items:center;gap:6px;}
+.leg-dot{width:12px;height:12px;border-radius:3px;flex-shrink:0;}
+
+footer{
+  text-align:center;font-size:11px;color:var(--muted);
+  padding:20px;border-top:1px solid var(--border);margin-top:32px;
+}
+
+@media print{
+  @page{size:A4 landscape;margin:8mm;}
+  .topbar,.overlay,.toast{display:none!important;}
+  main{padding:0!important;}
+  .card{box-shadow:none!important;border:1px solid #dde3ef;page-break-inside:avoid;}
+  .capa{page-break-after:always;}
+}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-left">
+    <div class="logo">RV</div>
+    <div>
+      <div class="topbar-title">Projeto Vivahcare</div>
+      <div class="topbar-sub">Relatório Executivo PMO</div>
+    </div>
+  </div>
+  <div class="topbar-right">
+    <span class="update-status" id="updateStatus">—</span>
+    <button class="btn btn-blue" id="btnUpdate" onclick="fetchAndRender()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/>
+        <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+      </svg>
+      Atualizar do Jira
+    </button>
+    <button class="btn btn-red" id="btnPdf" onclick="gerarPDF()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+        <polyline points="14 2 14 8 20 8"/>
+        <line x1="12" y1="18" x2="12" y2="12"/>
+        <polyline points="9 15 12 18 15 15"/>
+      </svg>
+      Gerar PDF
+    </button>
+  </div>
+</div>
+
+<!-- OVERLAY -->
+<div class="overlay" id="overlay">
+  <div class="overlay-box">
+    <div class="spinner"></div>
+    <div class="overlay-msg">Buscando dados do Jira…</div>
+    <div class="overlay-sub">Aguarde alguns segundos</div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- CONTEÚDO -->
+<main id="main">
+  <div class="empty">
+    <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="1.5">
+      <circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>
+    </svg>
+    <h3>Relatório ainda não carregado</h3>
+    <p>Clique em <strong>"Atualizar do Jira"</strong> para buscar os dados da sprint atual.</p>
+    <button class="btn btn-blue" onclick="fetchAndRender()" style="margin:0 auto;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/>
+        <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+      </svg>
+      Atualizar do Jira
+    </button>
+  </div>
+</main>
+
+<footer>Projeto Vivahcare &nbsp;|&nbsp; Dados extraídos em tempo real do Jira (VVO)</footer>
+
+<script>
+// ── URL da API: funciona no Vercel e localmente
+const API_URL = '/api/jira-proxy';
+
+function fmtDate(s) {
+  if (!s) return '—';
+  const [y,m,d] = s.split('-');
+  return `${d}/${m}/${y}`;
+}
+
+function fmtDateShort(d) {
+  if (!d) return '';
+  return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}`;
+}
+
+function parseD(s) {
+  if (!s) return null;
+  const [y,m,d] = s.split('-').map(Number);
+  return new Date(y, m-1, d);
+}
+
+function diffD(a, b) { return Math.round((b - a) / 86400000); }
+function addD(d, n)   { const r = new Date(d); r.setDate(r.getDate()+n); return r; }
+
+function showToast(msg, type) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show ' + (type||'');
+  setTimeout(() => t.className = 'toast', 3500);
+}
+
+// ── FETCH & RENDER ──
+async function fetchAndRender() {
+  const btn = document.getElementById('btnUpdate');
+  const overlay = document.getElementById('overlay');
+  const statusEl = document.getElementById('updateStatus');
+
+  btn.disabled = true;
+  overlay.classList.add('visible');
+  statusEl.textContent = 'Buscando…';
+
+  try {
+    const res = await fetch(API_URL, { method: 'POST' });
+    const data = await res.json();
+
+    if (!res.ok || data.error) {
+      throw new Error(data.error || 'Erro ' + res.status);
+    }
+
+    renderRelatorio(data);
+    const now = new Date().toLocaleString('pt-BR');
+    statusEl.textContent = `Atualizado em ${now}`;
+    showToast('✔ Dados atualizados com sucesso!', 'success');
+  } catch (err) {
+    statusEl.textContent = 'Erro ao atualizar';
+    showToast('Erro: ' + err.message, 'error');
+    console.error(err);
+  } finally {
+    btn.disabled = false;
+    overlay.classList.remove('visible');
+  }
+}
+
+// ── RENDER PRINCIPAL ──
+function renderRelatorio(d) {
+  const k = d.kpis;
+  const pct = d.pctConcluido;
+
+  // SLIDE 1 — CAPA
+  const capa = `
+    <div class="capa">
+      <div class="capa-tag">Relatório Executivo PMO</div>
+      <h1>Projeto Vivahcare</h1>
+      <h2>${d.sprint || 'Sprint Ativa'}</h2>
+      <div class="capa-meta">
+        <div class="capa-meta-item">
+          <label>Período</label>
+          <p>${fmtDate(d.sprintStart)} – ${fmtDate(d.sprintEnd)}</p>
+        </div>
+        <div class="capa-meta-item">
+          <label>Projeto</label>
+          <p>Vivahcare V3.0 (VVO)</p>
+        </div>
+        <div class="capa-meta-item">
+          <label>Gerado em</label>
+          <p>${new Date(d.geradoEm).toLocaleString('pt-BR')}</p>
+        </div>
+      </div>
+    </div>`;
+
+  // SLIDE 2 — KPIs
+  const kpis = `
+    <div class="card">
+      <div class="card-header">
+        <div class="card-num">2</div>
+        <div>
+          <div class="card-title">Resumo Executivo</div>
+          <div class="card-sub">KPIs da sprint atual</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="kpi-grid">
+          <div class="kpi-card green">
+            <div class="num">${pct}%</div>
+            <div class="lbl">Progresso Geral</div>
+          </div>
+          <div class="kpi-card blue">
+            <div class="num">${k.total}</div>
+            <div class="lbl">Total de Itens</div>
+          </div>
+          <div class="kpi-card ${k.atrasados > 0 ? 'red' : 'green'}">
+            <div class="num">${k.atrasados}</div>
+            <div class="lbl">Itens Atrasados</div>
+          </div>
+          <div class="kpi-card ${k.bloqueados > 0 ? 'amber' : 'green'}">
+            <div class="num">${k.bloqueados}</div>
+            <div class="lbl">Itens Bloqueados</div>
+          </div>
+        </div>
+        <div class="resp-grid">
+          ${(k.porResponsavel||[]).map(r => `<span class="resp-chip">${r.nome}: ${r.total}</span>`).join('')}
+        </div>
+      </div>
+    </div>`;
+
+  // SLIDE 3 — ROADMAP
+  const roadmap = `
+    <div class="card">
+      <div class="card-header" style="justify-content:space-between;">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div class="card-num">3</div>
+          <div>
+            <div class="card-title">Roadmap — Histórias e Tarefas</div>
+            <div class="card-sub">Projeto Vivahcare · Período: 07/07/2026 – 10/08/2026 · H = História · T = Tarefa</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:18px;align-items:center;font-size:11px;flex-shrink:0;">
+          <span style="display:flex;align-items:center;gap:6px;">
+            <span style="width:14px;height:14px;background:#F2A93B;border-radius:3px;display:inline-block;"></span>Em andamento
+          </span>
+          <span style="display:flex;align-items:center;gap:6px;">
+            <span style="width:14px;height:14px;background:#9aa1b1;border-radius:3px;display:inline-block;"></span>Tarefas pendentes
+          </span>
+        </div>
+      </div>
+      <div id="roadmapContainer" style="width:100%;overflow:hidden;"></div>
+    </div>`;
+
+  document.getElementById('main').innerHTML = capa + kpis + roadmap;
+
+  setTimeout(() => renderRoadmap(d.itens || []), 80);
+}
+
+// ── ROADMAP GANTT SVG ──
+function renderRoadmap(itens) {
+  const container = document.getElementById('roadmapContainer');
+  if (!container) return;
+
+  // Período fixo
+  const minD = new Date(2026, 6, 7);   // 07/07/2026
+  const maxD = new Date(2026, 7, 10);  // 10/08/2026
+  const today = new Date(); today.setHours(0,0,0,0);
+  const totalDays = diffD(minD, maxD) + 1;
+
+  // Mapa subtarefas
+  const subsByParent = {};
+  itens.forEach(it => {
+    if (it.isSubtask && it.parentKey) {
+      if (!subsByParent[it.parentKey]) subsByParent[it.parentKey] = [];
+      subsByParent[it.parentKey].push(it);
+    }
+  });
+
+  // Filtra: H e T, sem épicos, sem subtarefas
+  // status pendente ou andamento, subtask não concluída, barra visível no período
+  const lista = itens.filter(it => {
+    if (it.isSubtask) return false;
+    const t = (it.type||'').toLowerCase();
+    if (t.includes('epic') || t.includes('épico')) return false;
+    const isH = t.includes('hist') || t.includes('story');
+    const isT = t.includes('tarefa') || t.includes('task');
+    if (!isH && !isT) return false;
+    if (!it.startDate && !it.dueDate) return false;
+
+    // Verifica se tem barra no período
+    const s = parseD(it.startDate) || parseD(it.dueDate);
+    const e = parseD(it.dueDate)   || parseD(it.startDate);
+    if (!s || !e || e < minD || s > maxD) return false;
+
+    // Status
+    const st = (it.status||'').toLowerCase();
+    if (!st.includes('pendente') && !st.includes('andamento')) return false;
+
+    // Subtarefas
+    const subs = subsByParent[it.key] || [];
+    if (subs.length === 0) return true;
+    return subs.some(sub => !/conclu/i.test(sub.status||''));
+
+  }).sort((a, b) => {
+    const sa = parseD(a.startDate), sb = parseD(b.startDate);
+    const ea = parseD(a.dueDate),   eb = parseD(b.dueDate);
+    if (sa && sb && sa - sb !== 0) return sa - sb;
+    if (sa && !sb) return -1;
+    if (!sa && sb) return 1;
+    if (ea && eb) return ea - eb;
+    return 0;
+  });
+
+  if (lista.length === 0) {
+    container.innerHTML = '<div style="padding:36px;text-align:center;color:var(--muted);font-size:13px;">Nenhuma história/tarefa com barra no período 07/07–10/08/2026 encontrada.</div>';
+    return;
+  }
+
+  // Dimensões
+  const ROW_H   = 34;
+  const HDR_H   = 48;
+  const totalH  = HDR_H + lista.length * ROW_H;
+  const W       = container.offsetWidth || 1100;
+  const LEFT_W  = Math.min(400, Math.floor(W * 0.35));
+  const RIGHT_W = W - LEFT_W - 1;
+  const dayW    = RIGHT_W / totalDays;
+
+  let svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${totalH}" viewBox="0 0 ${W} ${totalH}" style="display:block;width:100%;font-family:Segoe UI,Arial,sans-serif;">`;
+
+  // Fundo alternado
+  lista.forEach((_, i) => {
+    svg += `<rect x="0" y="${HDR_H + i*ROW_H}" width="${W}" height="${ROW_H}" fill="${i%2===0?'#fff':'#f7f9fc'}"/>`;
+  });
+
+  // Fins de semana + linhas verticais
+  for (let i = 0; i < totalDays; i++) {
+    const d = addD(minD, i);
+    const x = (LEFT_W + i * dayW).toFixed(2);
+    if (d.getDay()===0 || d.getDay()===6)
+      svg += `<rect x="${x}" y="${HDR_H}" width="${dayW.toFixed(2)}" height="${totalH-HDR_H}" fill="rgba(60,68,90,0.05)"/>`;
+    svg += `<line x1="${x}" y1="0" x2="${x}" y2="${totalH}" stroke="#e8ecf4" stroke-width="0.5"/>`;
+  }
+
+  // Linha hoje
+  const todayOff = diffD(minD, today);
+  if (todayOff >= 0 && todayOff < totalDays) {
+    const tx = (LEFT_W + todayOff * dayW).toFixed(2);
+    svg += `<line x1="${tx}" y1="0" x2="${tx}" y2="${totalH}" stroke="#F2A93B" stroke-width="2" stroke-dasharray="5,3"/>`;
+  }
+
+  // Header fundo
+  svg += `<rect x="0" y="0" width="${W}" height="${HDR_H}" fill="#f0f4fb"/>`;
+
+  // Meses
+  let prevMon = '';
+  for (let i = 0; i < totalDays; i++) {
+    const d = addD(minD, i);
+    const mon = d.toLocaleDateString('pt-BR',{month:'short'}).replace('.','').toUpperCase();
+    if (mon !== prevMon) {
+      svg += `<text x="${(LEFT_W+i*dayW+3).toFixed(2)}" y="14" font-size="9.5" font-weight="700" fill="#1B2A4A">${mon}</text>`;
+      prevMon = mon;
+    }
+  }
+
+  // Dias
+  for (let i = 0; i < totalDays; i++) {
+    const d = addD(minD, i);
+    const x = (LEFT_W + i*dayW + dayW/2).toFixed(2);
+    const isT = todayOff === i;
+    const isMon = d.getDay() === 1;
+    svg += `<text x="${x}" y="36" font-size="${isT||isMon?'9':'8'}" font-weight="${isT||isMon?'700':'400'}" fill="${isT?'#2F6FED':'#a0aabf'}" text-anchor="middle">${d.getDate()}</text>`;
+  }
+
+  // Separadores header
+  svg += `<line x1="0" y1="${HDR_H}" x2="${W}" y2="${HDR_H}" stroke="#DDE3EF" stroke-width="1.5"/>`;
+  svg += `<line x1="${LEFT_W}" y1="0" x2="${LEFT_W}" y2="${totalH}" stroke="#DDE3EF" stroke-width="1"/>`;
+  svg += `<text x="10" y="28" font-size="9" font-weight="700" fill="#a0aabf" letter-spacing="0.5">CHAVE</text>`;
+  svg += `<text x="96" y="28" font-size="9" font-weight="700" fill="#a0aabf" letter-spacing="0.5">DESCRIÇÃO</text>`;
+
+  // Linhas
+  lista.forEach((it, i) => {
+    const y   = HDR_H + i * ROW_H;
+    const mid = y + ROW_H / 2;
+
+    // Badge
+    const tipo = (it.type||'').toLowerCase().includes('hist')||(it.type||'').toLowerCase().includes('story') ? 'H' : 'T';
+    const bc   = tipo === 'H' ? '#2F6FED' : '#17A398';
+    svg += `<rect x="7" y="${mid-7}" width="15" height="15" rx="3" fill="${bc}"/>`;
+    svg += `<text x="14.5" y="${mid+4.5}" font-size="8" font-weight="700" fill="#fff" text-anchor="middle">${tipo}</text>`;
+
+    // Chave
+    svg += `<text x="26" y="${mid+4}" font-size="9" font-weight="600" fill="#2F6FED">${it.key}</text>`;
+
+    // Descrição
+    const lbl = (it.summary||'').length > 50 ? it.summary.substring(0,50)+'…' : it.summary;
+    svg += `<text x="96" y="${mid+4}" font-size="10" fill="#1a2233">${lbl.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}</text>`;
+
+    // Separador
+    svg += `<line x1="0" y1="${y+ROW_H}" x2="${W}" y2="${y+ROW_H}" stroke="#edf0f6" stroke-width="0.5"/>`;
+
+    // Barra
+    const s = parseD(it.startDate)||parseD(it.dueDate);
+    const e = parseD(it.dueDate)  ||parseD(it.startDate);
+    const csx = Math.max(0, diffD(minD, s));
+    const cex = Math.min(totalDays-1, diffD(minD, e));
+    const bx  = (LEFT_W + csx * dayW).toFixed(2);
+    const bw  = Math.max((cex-csx+1)*dayW - 1, dayW*0.3).toFixed(2);
+    const bh  = 16;
+    const by  = (mid - bh/2).toFixed(2);
+    const col = /andamento/i.test(it.status||'') ? '#F2A93B' : '#9aa1b1';
+    svg += `<rect x="${bx}" y="${by}" width="${bw}" height="${bh}" rx="3" fill="${col}" opacity="0.88"/>`;
+
+    // Label datas
+    const dl = `${fmtDateShort(s)}–${fmtDateShort(e)}`;
+    const lx = (parseFloat(bx)+parseFloat(bw)+4).toFixed(2);
+    if (parseFloat(lx)+62 < W)
+      svg += `<text x="${lx}" y="${mid+4}" font-size="8" fill="#a0aabf">${dl}</text>`;
+  });
+
+  svg += '</svg>';
+  container.innerHTML = svg;
+}
+
+// ── GERAR PDF ──
+function gerarPDF() {
+  document.querySelector('.topbar').style.display = 'none';
+  const style = document.createElement('style');
+  style.id = 'pdf-style';
+  style.textContent = '@media print{@page{size:A4 landscape;margin:8mm;}}';
+  document.head.appendChild(style);
+  setTimeout(() => {
+    window.print();
+    document.querySelector('.topbar').style.display = '';
+    document.getElementById('pdf-style')?.remove();
+  }, 300);
+}
+</script>
+</body>
+</html>
